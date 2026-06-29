@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Evie's Nail Bar - Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Admin Panel 💅</h1>
+        <p>Manage your availability</p>
+    </header>
+
+    <div class="container">
+        <p style="color:#e75480; font-weight:500;">Add a new slot</p>
+
+        <form action="/add-slot" method="POST">
+            <label>Date:</label>
+            <input type="date" name="date">
+
+            <label>Time:</label>
+            <input type="time" name="time">
+
+            <button type="submit">Add slot 💅</button>
+        </form>
+
+        <br>
+        <p style="color:#e75480; font-weight:500;">Your current slots</p>
+
+        {% for slot in slots %}
+            <p style="color:#3a3a3a;">
+                {{ slot["date"] }} at {{ slot["time"] }}
+                {% if slot["booked"] %}
+                    — <span style="color:#e75480;">Booked by {{ slot["client"] }}</span>
+                {% endif %}
+                <a href="/delete-slot/{{ loop.index0 }}" style="color:#c93f6a; margin-left:10px;">Delete</a>
+            </p>
+        {% endfor %}
+
+    </div>
+</body>
+</html>
