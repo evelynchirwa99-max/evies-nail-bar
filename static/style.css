@@ -248,4 +248,51 @@ footer {
 
 .gallery-item:nth-child(1) { animation-delay: 0.2s; }
 .gallery-item:nth-child(2) { animation-delay: 0.4s; }
-.gallery-item:nth-child(3) { animation-delay: 0.6s; }
+.gallery-item:nth-child(3) { animation-delay: 0.6s; }/* Mobile friendly */
+@media (max-width: 600px) {
+    .brand-name {
+        font-size: 3rem;
+    }
+
+    .tagline {
+        font-size: 1rem;
+    }
+
+    .sub-tagline {
+        font-size: 0.8rem;
+    }
+
+    .book-btn {
+        font-size: 0.85rem;
+        padding: 12px 28px;
+    }
+
+    .container {
+        padding: 1.2rem;
+        margin: 0 1rem 2rem;
+    }
+
+    input, select {
+        font-size: 1rem;
+        padding: 12px 14px;
+    }
+
+    button {
+        font-size: 1rem;
+        padding: 14px;
+    }
+
+    .gallery-item img {
+        width: 150px;
+        height: 150px;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    footer {
+        font-size: 0.8rem;
+    }
+}
+
