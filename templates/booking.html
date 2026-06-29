@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book - Evie's Nail Bar</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <header>
+        <h1 class="brand-name" style="font-size:2.5rem;">Evie's Nail Bar 💅</h1>
+        <p style="color:white; opacity:0.9; font-size:0.9rem;">Book your appointment</p>
+    </header>
+
+    <div class="booking-section">
+        <div class="container">
+            <form action="/book" method="POST">
+                <label>Your name:</label>
+                <input type="text" name="name" placeholder="e.g. Thandiwe Moyo">
+
+                <label>Phone number:</label>
+                <input type="tel" name="phone" placeholder="e.g. 0977 000 000">
+
+                <label>Email address:</label>
+                <input type="email" name="email" placeholder="e.g. you@email.com">
+
+                <label>Choose a service:</label>
+                <select name="service" id="service" onchange="updateLengths()">
+                    <option value="">-- Select service --</option>
+                    <optgroup label="— Hands —">
+                        <option value="Polygel">Polygel</option>
+                        <option value="Rubber gel">Rubber gel</option>
+                        <option value="Acrylic set">Acrylic set</option>
+                        <option value="Infills">Infills</option>
+                    </optgroup>
+                    <optgroup label="— Feet —">
+                        <option value="Pedicure gel toes">Pedicure gel toes</option>
+                    </optgroup>
+                </select>
+
+                <label>Length & design:</label>
+                <select name="length_design" id="length_design" onchange="updatePrice()">
+                    <option value="">-- Select service first --</option>
+                </select>
+
+                <p id="price-display"></p>
+
+                <label>Choose an available slot:</label>
+                <select name="slot">
+                    {% for slot in slots %}
+                        {% if not slot["booked"] %}
+                            <option value="{{ loop.index0 }}">{{ slot["date"] }} at {{ slot["time"] }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+
+                <button type="submit">Confirm Booking 💅</button>
+            </form>
+        </div>
+
+        <h2 class="section-title">Our Work</h2>
+        <div class="gallery">
+            <div class="gallery-item">
+                <img src="/static/images/nails.jpeg" alt="Polygel nails">
+                <p class="gallery-caption">Polygel Set</p>
+            </div>
+            <div class="gallery-item">
+                <img src="/static/images/nails2.jpeg" alt="Rubber gel nails">
+                <p class="gallery-caption">Rubber Gel</p>
+            </div>
+            <div class="gallery-item">
+                <img src="/static/images/nails 3.jpeg" alt="Gel toes">
+                <p class="gallery-caption">Gel Toes</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+    <p>Evie's Nail Bar &mdash; Kalingalinga, Lusaka, Zambia 💅</p>
+    <p style="margin-top: 8px;">Contact us: 0970 524 379</p>
+    </footer>
+
+    <script>
+    const prices = {
+        "Polygel": {
+            "Short": "K170",
+            "Medium simple": "K180",
+            "Medium detailed": "K220",
+            "Long simple": "K200",
+            "Long detailed": "K300"
+        },
+        "Rubber gel": {
+            "Short/medium simple": "K130",
+            "Medium detailed": "K150",
+            "Long simple": "K150",
+            "Long detailed": "K180"
+        },
+        "Acrylic set": {
+            "Short": "K180",
+            "Medium simple": "K200",
+            "Medium detailed": "K250",
+            "Long simple": "K250",
+            "Long detailed": "K280 - K300"
+        },
+        "Pedicure gel toes": {
+            "Simple": "K100"
+        },
+        "Infills": {
+            "Consult with Evie": "Price depends on set"
+        }
+    };
+
+    function updateLengths() {
+        const service = document.getElementById("service").value;
+        const lengthSelect = document.getElementById("length_design");
+        lengthSelect.innerHTML = "";
+        document.getElementById("price-display").textContent = "";
+        if (!service) {
+            lengthSelect.innerHTML = "<option>-- Select service first --</option>";
+            return;
+        }
+        const options = prices[service];
+        for (const [key, value] of Object.entries(options)) {
+            const opt = document.createElement("option");
+            opt.value = key;
+            opt.textContent = key + " — " + value;
+            lengthSelect.appendChild(opt);
+        }
+        updatePrice();
+    }
+
+    function updatePrice() {
+        const service = document.getElementById("service").value;
+        const length = document.getElementById("length_design").value;
+        if (service && length && prices[service][length]) {
+            document.getElementById("price-display").textContent =
+                "💅 Estimated price: " + prices[service][length];
+        }
+    }
+    </script>
+
+   <script>
+document.addEventListener("DOMContentLoaded", function() {
+    const fields = document.querySelectorAll(".container label, .container input, .container select, .container button, #price-display");
+    fields.forEach((el, i) => {
+        el.style.opacity = "0";
+        el.style.transform = "translateY(30px)";
+        el.style.transition = `opacity 0.5s ease ${i * 0.1}s, transform 0.5s ease ${i * 0.1}s`;
+        setTimeout(() => {
+            el.style.opacity = "1";
+            el.style.transform = "translateY(0)";
+        }, i * 100);
+    });
+});
+</script> 
+
+
+</body>
+</html>

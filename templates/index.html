@@ -1,125 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Book a Nail Appointment</title>
+    <title>Evie's Nail Bar</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <h1>Evie's Nail Bar 💅</h1>
-        <p>Book your nail appointment below</p>
-    </header>
 
-    <div class="photo-gallery">
-    <img src="/static/images/nails.jpeg" alt="Nail design 1">
-    <img src="/static/images/nails2.jpeg" alt="Nail design 2">
-    <img src="/static/images/nails 3.jpeg" alt="Nail design 3">
-    <img src="/static/images/nails 4.jpeg" alt="Nail design 4">
-</div>
-
-    <div class="container">
-        <form action="/book" method="POST">
-            <label>Your name:</label>
-            <input type="text" name="name">
-
-            <label>Your phone number:</label>
-            <input type="text" name="phone">
-
-            <label>Choose a service:</label>
-            <select name="service" id="service" onchange="updateLengths()">
-                <option value="">-- Select service --</option>
-                <optgroup label="— Hands —">
-                    <option value="Polygel">Polygel</option>
-                    <option value="Rubber gel">Rubber gel</option>
-                    <option value="Acrylic set">Acrylic set</option>
-                    <option value="Infills">Infills</option>
-                </optgroup>
-                <optgroup label="— Feet —">
-                    <option value="Pedicure gel toes">Pedicure gel toes</option>
-                </optgroup>
-            </select>
-
-            <label>Length & design:</label>
-            <select name="length_design" id="length_design" onchange="updatePrice()">
-                <option value="">-- Select service first --</option>
-            </select>
-
-            <p id="price-display"></p>
-
-            <label>Choose an available slot:</label>
-            <select name="slot">
-                {% for slot in slots %}
-                    {% if not slot["booked"] %}
-                        <option value="{{ loop.index0 }}">{{ slot["date"] }} at {{ slot["time"] }}</option>
-                    {% endif %}
-                {% endfor %}
-            </select>
-
-            <button type="submit">Book now 💅</button>
-        </form>
+    <div class="landing">
+        <div class="landing-overlay">
+            <h1 class="brand-name">Evie's Nail Bar</h1>
+            <p class="tagline">Book Beauty. Meet Artistry.</p>
+            <p class="sub-tagline">Crafted with care</p>
+            <a href="/booking" class="book-btn">Book Appointment &rarr;</a>
+        </div>
     </div>
 
-    <script>
-    const prices = {
-        "Polygel": {
-            "Short": "K170",
-            "Medium simple": "K180",
-            "Medium detailed": "K220",
-            "Long simple": "K200",
-            "Long detailed": "K300"
-        },
-        "Rubber gel": {
-            "Short/medium simple": "K130",
-            "Medium detailed": "K150",
-            "Long simple": "K150",
-            "Long detailed": "K180"
-        },
-        "Acrylic set": {
-            "Short": "K180",
-            "Medium simple": "K200",
-            "Medium detailed": "K250",
-            "Long simple": "K250",
-            "Long detailed": "K280 - K300"
-        },
-        "Pedicure gel toes": {
-            "Simple": "K100"
-        },
-        "Infills": {
-            "Consult with Evie": "Price depends on set"
-        }
-    };
-
-    function updateLengths() {
-        const service = document.getElementById("service").value;
-        const lengthSelect = document.getElementById("length_design");
-        lengthSelect.innerHTML = "";
-        document.getElementById("price-display").textContent = "";
-
-        if (!service) {
-            lengthSelect.innerHTML = "<option>-- Select service first --</option>";
-            return;
-        }
-
-        const options = prices[service];
-        for (const [key, value] of Object.entries(options)) {
-            const opt = document.createElement("option");
-            opt.value = key;
-            opt.textContent = key + " — " + value;
-            lengthSelect.appendChild(opt);
-        }
-        updatePrice();
-    }
-
-    function updatePrice() {
-        const service = document.getElementById("service").value;
-        const length = document.getElementById("length_design").value;
-        if (service && length && prices[service][length]) {
-            document.getElementById("price-display").textContent =
-                "💅 Estimated price: " + prices[service][length];
-        }
-    }
-    </script>
+    <footer>
+        <p>Evie's Nail Bar &mdash; Kalingalinga, Lusaka, Zambia 💅</p>
+        <p style="margin-top: 8px;">Contact us: 0970 524 379</p>
+    </footer>
 
 </body>
 </html>

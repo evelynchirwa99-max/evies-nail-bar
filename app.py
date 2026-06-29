@@ -12,8 +12,12 @@ def save_slots(slots):
 
 @app.route("/")
 def home():
+    return render_template("index.html")
+
+@app.route("/booking")
+def booking():
     slots = load_slots()
-    return render_template("index.html", slots=slots)
+    return render_template("booking.html", slots=slots)
 
 @app.route("/admin")
 def admin():
@@ -42,16 +46,13 @@ def book():
     phone = request.form["phone"]
     service = request.form["service"]
     slot_index = int(request.form["slot"])
-    
     slots = load_slots()
     slots[slot_index]["booked"] = True
     slots[slot_index]["client"] = name
     slots[slot_index]["phone"] = phone
     slots[slot_index]["service"] = service
     save_slots(slots)
-    
     return "Booking confirmed! We will see you soon 💅"
 
 if __name__ == "__main__":
     app.run(debug=True)
-    
